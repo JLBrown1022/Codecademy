@@ -1,0 +1,20 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "Projects",
+            "group": "DataEngineering",
+            "database": "DataEngineering/SQL/Projects/user_churn/subscriptions.dbf",
+            "username": "user_churn",
+            "password": "user_churn"
+        }
+    ]
+
+}
