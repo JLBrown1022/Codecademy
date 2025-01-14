@@ -1,12 +1,12 @@
---1 What is the March churn rate as a ratio?
+-- 1 What is the March churn rate as a ratio?
 --  Use a SELECT statement to calculate the answer
 Select 100./2000
 
---2 CodeFlix started with 3,000 customers. During the 
+-- 2 CodeFlix started with 3,000 customers. During the 
 --  month, 450 of these customers canceled
 Select 450./3000
 
---1 We’ve imported 4 months of data for a company from when they began selling subscriptions. This company has a minimum commitment of 1 month, so there are no cancellations in the first month.
+-- 1 We’ve imported 4 months of data for a company from when they began selling subscriptions. This company has a minimum commitment of 1 month, so there are no cancellations in the first month.
 
 -- The subscriptions table contains:
     -- * id
@@ -40,7 +40,7 @@ Select 1.0 *
 )
 As result;
 
---3.1 calculate the churn for January 2017
+-- 3.1 calculate the churn for January 2017
 --    using WITH and CASE
 
 With enrollments As (
@@ -84,7 +84,7 @@ From status;
 -- Ours doesn’t, so we’ll need to build it using UNION
 -- We’ll need the first and last day of each month
 
---4.1 Create the months temporary table using WITH and SELECT 
+-- 4.1 Create the months temporary table using WITH and SELECT 
 --    everything from it to see the structure
 WITH months AS (
 SELECT 
@@ -107,7 +107,7 @@ desired_temp_table AS
 FROM table1
 CROSS JOIN table2)
 
---5.1 Create a cross_join temporary table that is a 
+-- 5.1 Create a cross_join temporary table that is a 
 --    CROSS JOIN of subscriptions and months.
 
 -- The pattern for creating a temporary table using 
@@ -118,8 +118,8 @@ cross_join AS
 FROM subscriptions
 CROSS JOIN months),
 
---6 * Determine Active Status * --
---6.1 Add a status temporary table. This table should have the following 
+-- 6 * Determine Active Status * --
+-- 6.1 Add a status temporary table. This table should have the following 
 --    columns:
 
   -- * id - selected from the cross_join table
@@ -146,12 +146,12 @@ status AS (
       THEN 1
       ELSE 0
     END AS is_active
-    ---7 * Multiple Month: Determine Cancellation Status
+    --- 7 * Multiple Month: Determine Cancellation Status
     --   We need to add is_canceled to status table
     --   This column will be 1 only during the month 
     --   the user cancels. 
 
-    --7.1 Add an is_canceled column to the status temporary 
+    -- 7.1 Add an is_canceled column to the status temporary 
     --    table. Ensure that it is equal to 1 in months 
     --    containing the subscription_end and 0 otherwise.
 
@@ -165,7 +165,7 @@ status AS (
     END AS is_canceled,
   FROM cross_join
 ),
---8 * Multiple Month: Sum Active and Canceled Users
+-- 8 * Multiple Month: Sum Active and Canceled Users
 --    With the active and canceled status for each
 --    subscription for each month, we can aggregate 
 --    them.
@@ -173,7 +173,7 @@ status AS (
 --    the two columns from the status table, is_active 
 --    and is_canceled
 
---8.1 Add a status_aggregate temporary table. This  
+-- 8.1 Add a status_aggregate temporary table. This  
 --    table should have the following columns:
 --    * month - this is an alias of first_day from the 
 --      cross_join table. Use the first day of the month
@@ -195,10 +195,10 @@ Sum(is_active) AS active_users,
   From status
   Group By month
 )
---9 * Multiple Month: Calculate Churn Rate
+-- 9 * Multiple Month: Calculate Churn Rate
 --    With the status_aggregate table, we can calculate 
 --    the churn rate for each month.
---9.1 Add a SELECT statement to calculate the churn rate. The 
+-- 9.1 Add a SELECT statement to calculate the churn rate. The 
 --    result should contain two columns
 --    * month  - selected from the status_aggregate table
 --    * churn_rate - calculated from the status_aggregate table
