@@ -1,0 +1,167 @@
+## Regular Expressions ##
+
+# 'Literals' we can match with literals our regular expression contains 
+# the exact text that we want to match. The regex a, for example, will 
+# match the text a, and the regex bananas will match the text bananas. 
+# "bark" will match the text 'bark'
+
+# 'Alternation', performed in  with the pipe symbol, |, allows us to 
+# match either the characters preceding the | OR the characters after 
+# the |.
+# "cat|dog" will match either cat or dog
+
+# 'Character sets', denoted by a pair of brackets [], let us match one 
+# character from a series of characters, allowing for matches with 
+# incorrect or different spellings 
+# "[chr]at" will match cat, hat, rat, etc
+
+# 'Wildcards' will match any single character (letter, number, symbol 
+# or whitespace) in text, 
+#   * '*' will match any single character, 
+#   * '....\.' will match any single character followed by a period
+# If we want to match an actual period, '.'? We can use the escape 
+# character, '\', to escape the wildcard functionality of the '.'
+#  "chr" will match any single character followed by chr
+#  "c*at" will match cat, caat, caaaat, etc
+# "h.t" will match hat, hot, hit, hut, etc
+
+# 'Ranges' allow us to specify a range of characters in which we can 
+# make a match without having to type out each individual character. 
+#   * 'a-z' will match any lowercase letter from a to z, 
+#   * '0-9' will match any single digit number.
+#   * '[^a][^w][b-k]' will match any three-letter string that starts with 
+#        any letter except a, followed by any letter except w, and ending
+#        with a letter between b and k.
+
+# 'Shorthand' character classes are used to match common sets of characters.
+
+# \w: the “word character” class represents the regex range [A-Za-z0-9_], 
+#     it matches a single uppercase character, lowercase character, digit 
+#     or underscore
+# \d: the “digit character” class represents the regex range [0-9], 
+#     it matches a single digit character
+# \s: the “whitespace character” class represents the regex range [ \t\r\n\f\v],
+#      matching a single space, tab, carriage return, line break, form feed, 
+#      or vertical tab
+# \b: the “word boundary” anchor represents the position between a word
+#     character and a non-word character, or a word character and the
+#     beginning or end of a string. It is not an actual character, but a
+#     position.
+#
+# For example, the regex \d\s\w\w\w\w\w\w\w matches a digit character, 
+# followed by a whitespace character, followed by 7 word characters. 
+# Thus it matches the text '3 monkeys'
+#     '\d\s\w\w\w\w\w\w' will match '5 sloths'
+
+# There are also  negated shorthand character classes that  match any character 
+# that is NOT in the regular shorthand classes. These include:
+
+# \W: the “non-word character” class represents the regex range [^A-Za-z0-9_],
+#     matching any character that is not included in the range represented by 
+#     \w
+# \D: the “non-digit character” class represents the regex range [^0-9], 
+#     matching any character that is not included in the range represented by 
+#     \d
+# \S: the “non-whitespace character” class represents the regex range 
+#     [^ \t\r\n\f\v], matching any character that is not included in the 
+#     range represented by \s
+
+# 'Grouping' allows us to group together multiple characters to match any 
+# character
+# 'Grouping' is done with parentheses ()
+# "(chr)" will match chr, cchr, chchr, chchchr, etc
+# 
+# '(puppies|kitty cats) are my favorite!' matches either puppies or kitty cats
+#   * "([cC]at)s?" will match cats, cats, cAts, cAts, etc
+# '?' makes the preceding character or group optional
+#   * "(h.t)?" will match hat, hot, hit, hut, etc, or just h.t
+# '+' makes the preceding character or group one or more times
+#   * "(c*at)+" will match cat, caat, caaaat, etc
+# '*' makes the preceding character or group zero or more times
+#   * "(c*at)*" will match cat, caat, caaaat, etc, or just cat
+
+# 'Quantifiers' allow us to specify the number of times a character or group 
+# 'Fixed quantifiers', use the curly braces {} to denote the exact number
+#  a character to match
+#   * \w{3} will match exactly 3 word characters
+#   * \w{4,7} will match at minimum 4 word characters and at maximum 7 
+#     word characters
+# 
+# 'squea{3,5}k' will match squeak, squeaks, squeakers, squeakery, squeaaak, etc
+#  
+
+# 'Optional quantifiers', use the question mark '?' to denote an optional group
+#   * \w{3,}? will match both 3 or more word characters, or 0 word characters
+#   * \w{3,7}? will match between 3 and 7 word characters, or 0 word characters
+#   * \w{3,}?p will match between 3 and 7 word characters, or 0 word characters,
+#  '\d (ducks?) for adoption\?' will match 
+#   * '1 duck for adoption', 
+#   * '2 ducks for adoption', 
+#   * '3 ducks for adoption?', 
+#   * '0 ducks for adoption', 
+#   * '3 ducks for adoption ducks?', etc
+ 
+# 'Quantifiers - 0 or More, 1 or More', 0 or 1 or more uses the plus sign '+'
+#  a character to match the question mark '?' to denote an optional group
+#   * \w{3,}? will match between 3 and 7 word characters, or 0 word characters
+#  
+#   * 'hoo+t' will match 'hoot', 'hooot', 'hooooot', etc
+
+# 'Anchors', use the caret '^' and dollar sign '$' to denote the start and end 
+# of a line of text
+#   * '^Monkeys: my mortal enemy$' will match 'Monkeys: my mortal enemy'
+#   * In '^Monkeys: my mortal enemy$' The '^' ensures that the matched text  
+#   * begins with Monkeys, and the '$' ensures the matched text ends with   
+#   * enemy
+#  
+#  '^penguins are cooler than regular expressions$'
+#   * will match 'penguins are cooler than regular expressions'
+#   * not match 'Penguins are cooler than regular expressions'
+
+#  'Regular' expressions are special sequences of characters that describe a 
+#  pattern of text that is to be matched. Use literals to match the exact 
+#  characters that we desire
+
+#  'Alternation', using the pipe symbol |, allows us to match the text 
+#  preceding or following the |
+#  
+#  'Character sets', denoted by a pair of brackets [], let us match one 
+#  character from a series of characters
+#
+#  'Wildcards', represented by the period or dot ., will match any single 
+#  character (letter, number, symbol or whitespace)
+
+#  'Ranges' allow us to specify a range of characters in which we can 
+#  make a match
+
+#  'Shorthand' character classes like '\w', '\d' and '\s' represent the 
+#  ranges representing word characters, digit characters, and whitespace 
+#  characters, respectively
+
+#  'Groupings', denoted with parentheses '('), group parts of a regular 
+#  expression together, and allows us to limit alternation to part 
+#  of a regex
+
+#  'Fixed quantifiers', represented with curly braces '{}', let us 
+#  indicate the exact quantity or a range of quantity of a character
+#  we wish to match
+
+#  'Optional' quantifiers, indicated by the question mark '?', allow us 
+#  to indicate a character in a regex is optional, or can appear either 
+#  0 times or 1 time
+
+#  The 'Kleene star', denoted with the asterisk '*, is a quantifier that 
+#  matches the preceding character 0 or more times
+
+#  The 'Kleene plus', denoted by the plus '+', matches the preceding 
+#  character 1 or more times
+
+#  The 'anchor' symbols hat '^' and dollar sign '$' are used to match 
+#  text at the start and end of a string, respectively
+
+
+
+
+
+
+
