@@ -25,7 +25,7 @@
 # ▪︎ Each row as a separate observation
 
 # For example, we could reshape a table like:
-# ▪︎  Account	Checkings	Savings
+# ▪︎  Account	Checking	Savings
 # ▪︎ “12456543”	8500	    8900
 # ▪︎ “12283942”	6410	    8020
 # ▪︎ “12839485”	78000	    92000
@@ -50,6 +50,7 @@
 
 import codecademylib3_seaborn
 import pandas as pd
+import matplotlib.pyplot as plt
 from students import students as df
 
 df1 = pd.read_csv("df1.csv")
@@ -101,6 +102,7 @@ print(len(students))
 ##4  Reshaping your Data ##
 
 # Use .melt() to take in a DataFrame, to unpack the columns
+# reshape the DataFrame into user defined columns and rows:
 
 # df = pd.melt(
 #   frame=df, 
@@ -257,6 +259,62 @@ print(df.score.mean())
 #   as when a column is actually composed of strings representing numeral. 
 # Use regex to get rid of all of the dollar signs
 df.price = df['price'].replace('[\$,]', '', regex=True)
+# or
+# df.price = [price.replace('[$,]', '', regex=True) for price in df.price]
+# df['col_name'] = df['col_name'].replace('[\$,]', '', regex=True)
+
+df['col_name'] = df['col_name'].replace('[\$,]', '', regex=True)
+for x in range(0,len(df['col_name'])):
+  string = str(df['col_name'].iat[x])
+  replace_dollar = string.replace('$', '')
+  replace_comma = replace_dollar.replace(',', '')
+
+  replace_dollar_comma = str(df['col_name'].iat[x]).replace('$', '').replace(',', '')
+  df['col_name'].iat[x] = replace_comma
+
+print(df.head())
+# or
+Men = []
+Women = []
+for x in range(0, len(df['col_name'])):
+  string = str(df['col_name'].iat[x])
+  replace = string.split('_')
+  Men.append(replace[0])
+  Women.append(replace[1])
+
+df['Men'] = Men
+df['Women'] = Women
+# Replace 'M' and 'F' with '' and convert to numeric using pandas function '.to_numeric()'
+for x in range(0, len(df['Men'])):
+  string = str(df['Men'].iat[x])
+  replace = string.replace('M','')
+  df['Men'].iat[x] = replace
+df['Men'] = pd.to_numeric(df['Men'])
+
+for x in range(0, len(df['Women'])):
+  string = str(df['Women'].iat[x])
+  replace = string.replace('F','')
+  df['Women'].iat[x] = replace
+df['Women'] = pd.to_numeric(df['Women'])
+
+print(df.head())
+
+# Use matplotlib to make a scatterplot using plt.show()
+
+plt.scatter(df['Women'], df['Income'])
+plt.show()
+
+plt.scatter(df['Women'], df['Income'])
+plt.xlabel('Number of Women')
+plt.ylabel('Income')
+plt.title('Scatterplot of Income vs Number of Women')
+plt.show()
+
+plt.scatter(df['Men'], df['Income'])
+plt.xlabel('Number of Men')
+plt.ylabel('Income')
+plt.title('Scatterplot of Income vs Number of Men')
+plt.show()
 
 # Then use the pandas function '.to_numeric()' to convert strings 
 #   containing numerical values to integers or floats:
@@ -304,19 +362,52 @@ print(students.dtypes)
 avg_grade=students.grade.mean()
 print(avg_grade)
 
+##11 Missing Values ##
+# Use one of two methods to deal with missing values
+# 1: drop all of the rows with a missing value
+#    use .dropna() to do this:
+#    bill_df = bill_df.dropna()
+#    bill_df = bill_df.dropna(subset=['of_column'])
 
+# 2: Fill the missing values with the mean of the column, or with 
+#    some other aggregate value
+#    use .fillna() to do this:
+#    bill_df = bill_df.fillna(value={\
+#       "bill":bill_df.bill.mean(), \
+#       "num_guests":bill_df.num_guests.mean()\
+#       })
+# or use .fillna() to do this:
+# df['Women'] = df['Women'].fillna(df['TotalPop'] - df['Men'])
+# print(df['Women'])
 
+#11.1 Get the mean of the score column. Store it in 'score_mean' 
+#    and print it out
+score_mean = students.score.mean()
+print(score_mean)
 
+#11.2  Replace all NaNs in students['score'] with 0
+students = students.fillna(0)
+
+# Isolate the first (baseline) value for our data
+baseline = df['of_column'][0]
+
+# Replace missing values with our baseline value
+df['of_column'].fillna(value=baseline, inplace=True)
+
+#  Use either LOCF or NOCB to fill in the missing value in the value1 column.
+df['value1'].bfill(axis=0, inplace=True)
+df['value1'].fillna(method='bfill', inplace=True)
+df['value1'].fillna(method='ffill', inplace=True)
+
+#11.3 Get the mean of the score column again. Store it in 'score_mean_2'
+score_mean_2 = students.score.mean()
+print(score_mean_2)
 
 # Use .pivot_table() to create a new DataFrame that groups your data
 # Use .pivot_table() to rearrange your data into a more useful format
 
 
 # Use .shape to find the number of rows and columns in your DataFrame
-
-
-
-
 
 
 
